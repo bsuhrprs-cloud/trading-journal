@@ -1,3 +1,4 @@
+"use client"
 import { supabase, Position } from "../lib/supabase";
 import Link from "next/link";
 import LogoutButton from "./components/LogoutButton";
