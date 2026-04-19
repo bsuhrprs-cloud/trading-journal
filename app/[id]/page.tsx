@@ -1,10 +1,28 @@
-import { supabase, Position } from "../../lib/supabase";
+import { createClient } from "../../lib/supabase/server";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export const revalidate = 60;
 
+interface Position {
+  id: string;
+  ticker: string;
+  trade_style: "daytrading" | "swing";
+  open_date: string;
+  close_date: string | null;
+  avg_buy_price: number;
+  avg_sell_price: number | null;
+  total_quantity: number;
+  profit_loss: number | null;
+  reason: string | null;
+  emotion: string | null;
+  improvement: string | null;
+  image_url: string | null;
+  created_at: string;
+}
+
 async function getPosition(id: string): Promise<Position | null> {
+  const supabase = createClient();
   const { data } = await supabase
     .from("positions")
     .select("*")

@@ -1,11 +1,29 @@
 "use client"
-import { supabase, Position } from "../lib/supabase";
+import { createClient } from "../lib/supabase/client";
 import Link from "next/link";
 import LogoutButton from "./components/LogoutButton";
 
 export const revalidate = 60; // 1분마다 ISR 갱신
 
+interface Position {
+  id: string;
+  ticker: string;
+  trade_style: "daytrading" | "swing";
+  open_date: string;
+  close_date: string | null;
+  avg_buy_price: number;
+  avg_sell_price: number | null;
+  total_quantity: number;
+  profit_loss: number | null;
+  reason: string | null;
+  emotion: string | null;
+  improvement: string | null;
+  image_url: string | null;
+  created_at: string;
+}
+
 async function getPositions(): Promise<Position[]> {
+  const supabase = createClient();
   const { data } = await supabase
     .from("positions")
     .select("*")
